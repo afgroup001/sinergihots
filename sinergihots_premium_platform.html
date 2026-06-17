@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SinergiHOTS - Pusat Pengembangan Media Pembelajaran SMA</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              950: '#020617',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <!-- Notifikasi Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden flex items-center gap-3 px-5 py-4 rounded-xl shadow-2xl border border-indigo-500/30 transition-all transform translate-y-5 opacity-0 duration-300 bg-slate-900/95 text-indigo-200">
+    <i data-lucide="sparkles" class="w-5 h-5 text-amber-400 animate-pulse"></i>
+    <span id="toast-message" class="font-medium text-sm">Notifikasi</span>
+  </div>
+
+  <!-- Header / Navigasi Utama -->
+  <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800/80 px-4 py-3 lg:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <i data-lucide="brain" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-black bg-gradient-to-r from-white via-slate-200 to-indigo-400 bg-clip-text text-transparent tracking-tight">SinergiHOTS</h1>
+          <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider">EdTech Premium Nasional</p>
+        </div>
+      </div>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="hidden xl:flex items-center gap-1">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+          <i data-lucide="bar-chart-2" class="w-4 h-4"></i> Dashboard
+        </button>
+        <button onclick="switchTab('lms')" id="nav-lms" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+          <i data-lucide="book-open" class="w-4 h-4"></i> LMS Modern
+        </button>
+        <button onclick="switchTab('ai-assistant')" id="nav-ai-assistant" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> EduAI Assistant
+        </button>
+        <button onclick="switchTab('hots-bank')" id="nav-hots-bank" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+          <i data-lucide="book-open-check" class="w-4 h-4"></i> Bank Soal HOTS
+        </button>
+        <button onclick="switchTab('virtual-lab')" id="nav-virtual-lab" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+          <i data-lucide="beaker" class="w-4 h-4"></i> Virtual Lab
+        </button>
+        <button onclick="switchTab('pjbl-planner')" id="nav-pjbl-planner" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+          <i data-lucide="file-text" class="w-4 h-4"></i> PjBL Planner
+        </button>
+        <button onclick="switchTab('gamifikasi')" id="nav-gamifikasi" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+          <i data-lucide="trophy" class="w-4 h-4"></i> Gamifikasi
+        </button>
+        <button onclick="switchTab('repository')" id="nav-repository" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+          <i data-lucide="share-2" class="w-4 h-4"></i> Inovasi Guru
+        </button>
+      </nav>
+
+      <!-- User Profile Header Widget -->
+      <div class="hidden lg:flex items-center gap-4 bg-slate-800/40 p-1.5 pl-4 pr-3 rounded-full border border-slate-700/50">
+        <div class="text-right">
+          <p class="text-xs font-bold text-slate-200" id="profile-name">Dr. Kartika Sari, M.Pd.</p>
+          <div class="flex items-center gap-2 mt-0.5">
+            <span class="px-1.5 py-0.5 text-[9px] font-bold bg-indigo-500/20 text-indigo-300 rounded border border-indigo-500/30" id="profile-lvl-badge">LVL 4</span>
+            <div class="w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+              <div id="profile-xp-bar" class="h-full bg-gradient-to-r from-indigo-500 to-purple-500" style="width: 84%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-inner">
+          KS
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button onclick="toggleMobileMenu()" class="xl:hidden p-2 rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700">
+        <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Navigation -->
+  <div id="mobile-menu" class="hidden xl:hidden fixed inset-0 top-[65px] z-50 bg-slate-950/95 backdrop-blur-lg flex flex-col p-6 overflow-y-auto">
+    <div class="flex items-center gap-4 bg-slate-900 p-4 rounded-xl mb-6 border border-slate-800">
+      <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center font-bold text-white text-lg">KS</div>
+      <div class="flex-1">
+        <h4 class="font-bold text-slate-100">Dr. Kartika Sari, M.Pd.</h4>
+        <p class="text-xs text-slate-400">SMA Negeri 1 Jakarta</p>
+        <div class="flex items-center gap-3 mt-2">
+          <span class="text-xs font-black text-indigo-400" id="mobile-lvl-badge">LVL 4</span>
+          <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div id="mobile-xp-bar" class="h-full bg-indigo-500" style="width: 84%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Navigasi Platform</p>
+    <div class="grid grid-cols-1 gap-3">
+      <button onclick="switchTab('dashboard'); toggleMobileMenu();" class="mobile-nav-btn flex items-center gap-4 p-3.5 rounded-xl bg-indigo-600 text-white text-left font-semibold text-sm">
+        <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Dashboard Utama
+      </button>
+      <button onclick="switchTab('lms'); toggleMobileMenu();" class="mobile-nav-btn flex items-center gap-4 p-3.5 rounded-xl bg-slate-900 text-slate-300 border border-slate-800/60 text-left font-semibold text-sm">
+        <i data-lucide="book-open" class="w-5 h-5"></i> LMS Modern
+      </button>
+      <button onclick="switchTab('ai-assistant'); toggleMobileMenu();" class="mobile-nav-btn flex items-center gap-4 p-3.5 rounded-xl bg-slate-900 text-slate-300 border border-slate-800/60 text-left font-semibold text-sm">
+        <i data-lucide="sparkles" class="w-5 h-5"></i> EduAI Assistant
+      </button>
+      <button onclick="switchTab('hots-bank'); toggleMobileMenu();" class="mobile-nav-btn flex items-center gap-4 p-3.5 rounded-xl bg-slate-900 text-slate-300 border border-slate-800/60 text-left font-semibold text-sm">
+        <i data-lucide="book-open-check" class="w-5 h-5"></i> Bank Soal HOTS
+      </button>
+      <button onclick="switchTab('virtual-lab'); toggleMobileMenu();" class="mobile-nav-btn flex items-center gap-4 p-3.5 rounded-xl bg-slate-900 text-slate-300 border border-slate-800/60 text-left font-semibold text-sm">
+        <i data-lucide="beaker" class="w-5 h-5"></i> Virtual Lab
+      </button>
+      <button onclick="switchTab('pjbl-planner'); toggleMobileMenu();" class="mobile-nav-btn flex items-center gap-4 p-3.5 rounded-xl bg-slate-900 text-slate-300 border border-slate-800/60 text-left font-semibold text-sm">
+        <i data-lucide="file-text" class="w-5 h-5"></i> PjBL Planner
+      </button>
+      <button onclick="switchTab('gamifikasi'); toggleMobileMenu();" class="mobile-nav-btn flex items-center gap-4 p-3.5 rounded-xl bg-slate-900 text-slate-300 border border-slate-800/60 text-left font-semibold text-sm">
+        <i data-lucide="trophy" class="w-5 h-5"></i> Gamifikasi
+      </button>
+      <button onclick="switchTab('repository'); toggleMobileMenu();" class="mobile-nav-btn flex items-center gap-4 p-3.5 rounded-xl bg-slate-900 text-slate-300 border border-slate-800/60 text-left font-semibold text-sm">
+        <i data-lucide="share-2" class="w-5 h-5"></i> Inovasi Guru
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 flex flex-col">
+    
+    <!-- ================= 1. TAB DASHBOARD ================= -->
+    <div id="tab-dashboard" class="tab-content space-y-8 animate-fade-in">
+      <!-- Banner Sambutan -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-900 border border-indigo-500/30 p-8 md:p-12 shadow-2xl">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full text-xs font-bold">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300 animate-pulse"></i> Platform Pembelajaran Siap Nasional
+          </div>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight leading-tight">
+            Tingkatkan Kualitas <span class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Berpikir Kritis</span> Generasi Bangsa
+          </h2>
+          <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+            Ekosistem lengkap bagi pendidik SMA untuk mengelola LMS, memanfaatkan AI asisten kurikulum, merancang proyek HOTS (PjBL), dan meluncurkan eksperimen sains secara virtual.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-4">
+            <button onclick="switchTab('ai-assistant')" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/45 transition-all text-sm flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> Mulai Konsultasi AI
+            </button>
+            <button onclick="switchTab('virtual-lab')" class="px-6 py-3 bg-slate-800 text-slate-200 border border-slate-700 font-bold rounded-xl hover:bg-slate-700/80 transition-all text-sm flex items-center gap-2">
+              <i data-lucide="beaker" class="w-4 h-4"></i> Buka Virtual Lab
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrik Utama Dashboard -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-5 rounded-2xl border text-indigo-400 bg-indigo-500/10 border-indigo-500/20 flex flex-col justify-between space-y-4 shadow-sm">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Siswa Aktif Bimbingan</span>
+            <div class="p-2 rounded-xl bg-white/5"><i data-lucide="users" class="w-5 h-5"></i></div>
+          </div>
+          <p class="text-3xl font-black text-slate-100">184</p>
+        </div>
+        <div class="p-5 rounded-2xl border text-emerald-400 bg-emerald-500/10 border-emerald-500/20 flex flex-col justify-between space-y-4 shadow-sm">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Modul HOTS Terbit</span>
+            <div class="p-2 rounded-xl bg-white/5"><i data-lucide="book-open" class="w-5 h-5"></i></div>
+          </div>
+          <p class="text-3xl font-black text-slate-100">12</p>
+        </div>
+        <div class="p-5 rounded-2xl border text-amber-400 bg-amber-500/10 border-amber-500/20 flex flex-col justify-between space-y-4 shadow-sm">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Simulasi Lab Berjalan</span>
+            <div class="p-2 rounded-xl bg-white/5"><i data-lucide="beaker" class="w-5 h-5"></i></div>
+          </div>
+          <p class="text-3xl font-black text-slate-100">48</p>
+        </div>
+        <div class="p-5 rounded-2xl border text-purple-400 bg-purple-500/10 border-purple-500/20 flex flex-col justify-between space-y-4 shadow-sm">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Peringkat Nasional</span>
+            <div class="p-2 rounded-xl bg-white/5"><i data-lucide="trophy" class="w-5 h-5"></i></div>
+          </div>
+          <p class="text-3xl font-black text-slate-100">#14</p>
+        </div>
+      </div>
+
+      <!-- Grafik & Aktivitas Belajar -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <div class="flex justify-between items-center mb-6">
+            <div>
+              <h3 class="text-lg font-bold">Aktivitas & Keterlibatan Siswa</h3>
+              <p class="text-xs text-slate-500">Distribusi keaktifan dalam Platform HOTS Mingguan</p>
+            </div>
+            <span class="text-xs text-indigo-400 font-semibold hover:underline">Detil Analitik →</span>
+          </div>
+          <!-- Bar Chart Visual -->
+          <div class="h-48 flex items-end gap-3 pt-4 border-b border-slate-800">
+            <div class="flex-1 flex flex-col items-center gap-2 group">
+              <div class="w-full relative bg-slate-800 rounded-t-lg h-[140px] flex items-end">
+                <div class="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-lg transition-all h-[65%]"></div>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Sen</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-2 group">
+              <div class="w-full relative bg-slate-800 rounded-t-lg h-[140px] flex items-end">
+                <div class="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-lg transition-all h-[85%]"></div>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Sel</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-2 group">
+              <div class="w-full relative bg-slate-800 rounded-t-lg h-[140px] flex items-end">
+                <div class="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-lg transition-all h-[45%]"></div>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Rab</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-2 group">
+              <div class="w-full relative bg-slate-800 rounded-t-lg h-[140px] flex items-end">
+                <div class="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-lg transition-all h-[95%]"></div>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Kam</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-2 group">
+              <div class="w-full relative bg-slate-800 rounded-t-lg h-[140px] flex items-end">
+                <div class="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-lg transition-all h-[75%]"></div>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Jum</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-2 group">
+              <div class="w-full relative bg-slate-800 rounded-t-lg h-[140px] flex items-end">
+                <div class="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-lg transition-all h-[30%]"></div>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Sab</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-2 group">
+              <div class="w-full relative bg-slate-800 rounded-t-lg h-[140px] flex items-end">
+                <div class="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-lg transition-all h-[50%]"></div>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Min</span>
+            </div>
+          </div>
+          <div class="flex justify-around pt-4 text-xs text-slate-400">
+            <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-indigo-500 rounded-full"></span> Eksperimen Sains</span>
+            <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-purple-500 rounded-full"></span> Penyelesaian Soal</span>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <h3 class="text-lg font-bold mb-4">Misi Pengembangan Guru</h3>
+            <div class="space-y-4 text-xs">
+              <div class="flex gap-3 items-start border-b border-slate-800 pb-3">
+                <div class="w-5 h-5 rounded-full border border-indigo-500 bg-indigo-600 flex items-center justify-center text-white"><i data-lucide="check" class="w-3.5 h-3.5"></i></div>
+                <div>
+                  <div class="flex justify-between items-center w-full">
+                    <p class="font-bold line-through text-slate-500">Evaluasi Draft PjBL</p>
+                    <span class="font-black text-indigo-400">+100 EXP</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500">Tentukan desain proyek kolaboratif.</p>
+                </div>
+              </div>
+              <div class="flex gap-3 items-start">
+                <div class="w-5 h-5 rounded-full border border-slate-700 flex items-center justify-center text-transparent"></div>
+                <div>
+                  <div class="flex justify-between items-center w-full">
+                    <p class="font-bold text-slate-200">Lakukan Uji Lab Titrasi</p>
+                    <span class="font-black text-indigo-400">+50 EXP</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500">Selesaikan percobaan titrasi asam basa virtual.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 2. TAB LMS ================= -->
+    <div id="tab-lms" class="tab-content hidden space-y-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-black">LMS Interaktif Sinergi</h2>
+          <p class="text-xs text-slate-400">Kelas digital adaptif dengan rancangan pembelajaran berbasis kurikulum nasional.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- List Kelas -->
+        <div class="space-y-4">
+          <div onclick="selectClass(0)" id="class-card-0" class="class-card p-5 rounded-2xl border cursor-pointer transition-all bg-slate-900 border-indigo-500/50 shadow-lg">
+            <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Fisika - Kelas XI</span>
+            <h4 class="font-bold text-sm text-slate-100 mt-1 leading-tight">Gelombang Elektromagnetik & Optika</h4>
+            <div class="mt-4 space-y-1.5">
+              <div class="flex justify-between text-[10px] text-slate-400">
+                <span>Progres Belajar</span>
+                <span class="font-bold">68%</span>
+              </div>
+              <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-indigo-500 rounded-full" style="width: 68%"></div>
+              </div>
+            </div>
+          </div>
+          <div onclick="selectClass(1)" id="class-card-1" class="class-card p-5 rounded-2xl border cursor-pointer transition-all bg-slate-900/50 border-slate-800 hover:bg-slate-800/40">
+            <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Kimia - Kelas XI</span>
+            <h4 class="font-bold text-sm text-slate-100 mt-1 leading-tight">Asam Basa, pH, & Sistem Penyangga</h4>
+            <div class="mt-4 space-y-1.5">
+              <div class="flex justify-between text-[10px] text-slate-400">
+                <span>Progres Belajar</span>
+                <span class="font-bold">45%</span>
+              </div>
+              <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-indigo-500 rounded-full" style="width: 45%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail Kelas / Silabus -->
+        <div class="lg:col-span-2 space-y-6">
+          <div id="class-banner" class="p-8 rounded-3xl bg-gradient-to-r from-blue-900 to-indigo-950 border border-white/5">
+            <span class="px-2.5 py-1 bg-white/10 rounded text-xs font-bold uppercase tracking-wider">Fisika - Kelas XI</span>
+            <h3 class="text-xl md:text-2xl font-black mt-2 leading-tight">Gelombang Elektromagnetik & Optika Geometri</h3>
+            <p class="text-slate-300 text-xs mt-1">Materi kurikulum terintegrasi dengan simulasi laboratorium virtual.</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <h4 class="font-bold text-sm text-slate-300 uppercase tracking-wider">Silabus & Aktivitas Pembelajaran</h4>
+            <div id="syllabus-list" class="space-y-3">
+              <!-- Dipopulasikan secara dinamis -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 3. TAB EDUAI ASSISTANT ================= -->
+    <div id="tab-ai-assistant" class="tab-content hidden grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-5 h-5 text-amber-400"></i>
+            <h3 class="font-bold text-base">Asisten EduAI</h3>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Dapatkan draf RPP, rancangan stimulus soal HOTS, atau instruksi laboratorium secara instan menggunakan kecerdasan buatan.
+          </p>
+          <div class="space-y-2 pt-4">
+            <p class="text-[10px] font-black text-slate-500 uppercase tracking-wider">Template Pintas</p>
+            <button onclick="sendAiTemplate('Rancang draf RPP 1 halaman Fisika materi Gelombang Elektromagnetik berbasis HOTS untuk SMA')" class="w-full text-left p-3 bg-slate-950/40 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold border border-slate-800/80 transition-all flex items-center justify-between group">
+              <span>Rancang RPP Fisika</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-500"></i>
+            </button>
+            <button onclick="sendAiTemplate('Berikan 3 ide pembelajaran berbasis proyek (PjBL) Kimia SMA yang mengusung tema ramah lingkungan')" class="w-full text-left p-3 bg-slate-950/40 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold border border-slate-800/80 transition-all flex items-center justify-between group">
+              <span>Ide PjBL Kimia Hijau</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-500"></i>
+            </button>
+          </div>
+        </div>
+        <div class="pt-6 border-t border-slate-800 text-[10px] text-slate-500">
+          Setiap respons kognitif yang diajukan menghasilkan +30 EXP.
+        </div>
+      </div>
+
+      <div class="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col h-[600px] overflow-hidden">
+        <!-- Chat Header -->
+        <div class="px-6 py-4 bg-slate-950/50 border-b border-slate-800 flex justify-between items-center">
+          <div class="flex items-center gap-3">
+            <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
+            <div>
+              <p class="text-xs font-bold text-slate-200">EduAI Engine Online</p>
+              <p class="text-[10px] text-slate-500 font-semibold" id="ai-engine-model">Mode Simulasi Lokal Cerdas</p>
+            </div>
+          </div>
+          <button onclick="clearChat()" class="px-3 py-1.5 bg-slate-800 text-[10px] font-bold text-slate-400 hover:text-slate-200 rounded-lg transition-all">Reset Chat</button>
+        </div>
+
+        <!-- Chat messages -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Input Field -->
+        <form onsubmit="handleChatSubmit(event)" class="p-4 bg-slate-950/50 border-t border-slate-800 flex gap-2">
+          <input id="chat-input" type="text" placeholder="Tulis instruksi kurikulum atau minta rancangan stimulus disini..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 text-slate-200 placeholder:text-slate-600" required>
+          <button type="submit" class="px-4 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold flex items-center justify-center transition-all">
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= 4. TAB BANK SOAL HOTS ================= -->
+    <div id="tab-hots-bank" class="tab-content hidden space-y-6 animate-fade-in">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-black">Bank Soal HOTS Interaktif</h2>
+          <p class="text-xs text-slate-400">Pusat analisis butir instrumen evaluasi nasional berbasis kemampuan berpikir kritis.</p>
+        </div>
+        <button onclick="openHotsModal()" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shadow-md shadow-indigo-600/20">
+          <i data-lucide="plus" class="w-4 h-4"></i> Rancang Soal HOTS Baru
+        </button>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div id="hots-sidebar-list" class="space-y-4">
+          <!-- Populated via JavaScript -->
+        </div>
+
+        <!-- Detail Panel -->
+        <div class="lg:col-span-2">
+          <div id="hots-detail-container" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+            <!-- Populated via JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 5. TAB VIRTUAL LAB ================= -->
+    <div id="tab-virtual-lab" class="tab-content hidden space-y-6">
+      <div>
+        <h2 class="text-2xl font-black">Virtual Laboratory Sains SMA</h2>
+        <p class="text-xs text-slate-400">Eksperimen titrasi asam-basa kuat secara virtual terintegrasi dengan sensor pH digital.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Lab Control Panel -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+          <h3 class="font-bold text-sm text-slate-300 uppercase tracking-wider">Parameter Larutan</h3>
+
+          <!-- HCl -->
+          <div class="space-y-2">
+            <span class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider block">1. Larutan Asam dalam Erlenmeyer (HCl)</span>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[9px] text-slate-500 block mb-1">Konsentrasi (M)</label>
+                <input id="lab-acid-conc" type="number" step="0.01" min="0.01" max="1.0" value="0.10" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 outline-none" onchange="recalculatePhVal()">
+              </div>
+              <div>
+                <label class="text-[9px] text-slate-500 block mb-1">Volume (mL)</label>
+                <input id="lab-acid-vol" type="number" step="5" min="5" max="200" value="50" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 outline-none" onchange="recalculatePhVal()">
+              </div>
+            </div>
+          </div>
+
+          <!-- NaOH -->
+          <div class="space-y-2">
+            <span class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider block">2. Larutan Basa dalam Buret (NaOH)</span>
+            <div>
+              <label class="text-[9px] text-slate-500 block mb-1">Konsentrasi NaOH (M)</label>
+              <input id="lab-base-conc" type="number" step="0.01" min="0.01" max="1.0" value="0.10" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 outline-none" onchange="recalculatePhVal()">
+            </div>
+          </div>
+
+          <!-- Indicator Selection -->
+          <div class="space-y-2">
+            <span class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider block">3. Indikator Kimiawi pH</span>
+            <div class="grid grid-cols-2 gap-3">
+              <button onclick="setLabIndicator('PP')" id="indicator-btn-PP" class="p-3 rounded-xl border text-center transition-all bg-slate-950 text-pink-400 border-pink-500/30 font-bold text-xs">
+                Fenolftalein (PP)
+              </button>
+              <button onclick="setLabIndicator('BTB')" id="indicator-btn-BTB" class="p-3 rounded-xl border text-center transition-all bg-slate-950/40 border-slate-800 text-slate-400 text-xs">
+                Bromotimol Biru (BTB)
+              </button>
+            </div>
+          </div>
+
+          <!-- Simulation Actions -->
+          <div class="pt-4 border-t border-slate-800 space-y-3">
+            <div class="flex gap-2">
+              <button id="toggle-titrasi-btn" onclick="toggleTitrasi()" class="flex-1 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                <i data-lucide="play" class="w-4 h-4"></i> Mulai Aliran Titrasi
+              </button>
+              <button onclick="addTitrasiDrop()" class="px-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all">
+                + Drop
+              </button>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="resetLab()" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Atur Ulang Lab
+              </button>
+              <button onclick="saveLabTrial()" class="flex-1 py-2.5 bg-slate-950 hover:bg-slate-800 text-indigo-400 border border-slate-800 hover:border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all">
+                Simpan Hasil Uji
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Gelas & Grafis Kurva -->
+        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row gap-6">
+          <div class="flex-1 bg-slate-950 rounded-xl p-4 border border-slate-800 flex flex-col items-center justify-center relative min-h-[400px]">
+            <!-- Sensor pH digital -->
+            <div class="absolute top-4 right-4 p-3 bg-slate-900 rounded-xl border border-indigo-500/20 text-center">
+              <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block">pH SENSOR DIGITAL</span>
+              <span id="ph-digital-display" class="text-2xl font-black text-yellow-400">1.00</span>
+            </div>
+
+            <!-- Buret -->
+            <div class="w-16 h-48 relative border-l border-r border-slate-700 flex flex-col justify-end">
+              <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-bold text-slate-500 whitespace-nowrap">Buret NaOH</span>
+              <div id="buret-liquid" class="w-full bg-slate-400/20 transition-all duration-300 h-[100%]"></div>
+              <div id="volume-added-display" class="absolute bottom-1 right-2 text-[9px] font-bold text-indigo-400">0.0 mL</div>
+            </div>
+
+            <div class="w-1 bg-slate-600 h-6 my-1 relative">
+              <div id="drip-animation" class="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-12 bg-indigo-400 rounded-full hidden animate-bounce"></div>
+            </div>
+
+            <!-- Erlenmeyer flask representation -->
+            <div class="w-28 h-32 relative flex flex-col justify-end items-center mt-1">
+              <div class="absolute inset-0 border-b-4 border-l-2 border-r-2 border-slate-400 rounded-b-xl" style="clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);">
+                <div id="flask-solution" class="w-full transition-all duration-300 bg-slate-100/40 h-[35%]"></div>
+              </div>
+              <span class="absolute bottom-3 text-[10px] font-black text-slate-300">Gelas Kimia</span>
+            </div>
+          </div>
+
+          <!-- Curve of Titration -->
+          <div class="flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Kurva Titrasi Asam-Basa Sinergi</h4>
+              <p class="text-[10px] text-slate-500 leading-normal">
+                Visualisasi volume NaOH yang ditambahkan (Sumbu X) dengan hasil pH (Sumbu Y). Titik ekuivalen teoritis tercapai pada pH 7.0.
+              </p>
+            </div>
+
+            <!-- SVG Graph Curve -->
+            <div class="h-48 border-l border-b border-slate-700 relative my-4 flex items-end">
+              <div class="absolute left-0 right-0 top-1/2 h-px bg-slate-800"></div>
+              <div class="absolute top-2 left-2 text-[9px] font-bold text-slate-600">pH 14</div>
+              <div class="absolute bottom-2 left-2 text-[9px] font-bold text-slate-600">pH 0</div>
+              <div class="absolute bottom-2 right-2 text-[9px] font-bold text-slate-600">100 mL</div>
+              <svg class="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <!-- Standard titration path curve template -->
+                <path d="M 0,90 Q 40,85 50,50 T 100,10" fill="none" stroke="#4f46e5" stroke-width="2" class="opacity-40"></path>
+                <!-- Dynamic status marker dot -->
+                <circle id="curve-dot" cx="0" cy="90" r="3.5" fill="#fbbf24" class="transition-all duration-300"></circle>
+              </svg>
+            </div>
+
+            <div class="p-4 bg-slate-950 rounded-xl space-y-1.5 border border-slate-800 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Titrasi Berlangsung:</span>
+                <span id="display-added-total" class="font-bold text-slate-200">0 mL</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Status Sensor pH:</span>
+                <span id="display-ph-total" class="font-bold text-slate-200">1.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 6. TAB PjBL PLANNER ================= -->
+    <div id="tab-pjbl-planner" class="tab-content hidden space-y-6 animate-fade-in">
+      <div>
+        <h2 class="text-2xl font-black">Project-Based Learning (PjBL) Planner</h2>
+        <p class="text-xs text-slate-400">Implementasi 6 Sintaksis Pembelajaran Berbasis Proyek Kurikulum Nasional secara kolaboratif.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Kanban Columns -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h4 class="text-xs font-black uppercase text-indigo-400 tracking-wider">Perencanaan (To Do)</h4>
+            <span id="todo-count" class="px-2 py-0.5 bg-slate-800 text-[10px] font-bold rounded text-slate-400">3</span>
+          </div>
+          <div id="todo-tasks-container" class="space-y-3">
+            <!-- Populated via Javascript -->
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h4 class="text-xs font-black uppercase text-amber-400 tracking-wider">Memonitoring (Doing)</h4>
+            <span id="doing-count" class="px-2 py-0.5 bg-slate-800 text-[10px] font-bold rounded text-slate-400">1</span>
+          </div>
+          <div id="doing-tasks-container" class="space-y-3">
+            <!-- Populated via Javascript -->
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h4 class="text-xs font-black uppercase text-emerald-400 tracking-wider">Evaluasi (Done)</h4>
+            <span id="done-count" class="px-2 py-0.5 bg-slate-800 text-[10px] font-bold rounded text-slate-400">1</span>
+          </div>
+          <div id="done-tasks-container" class="space-y-3">
+            <!-- Populated via Javascript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 7. TAB GAMIFIKASI ================= -->
+    <div id="tab-gamifikasi" class="tab-content hidden grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fade-in">
+      <div class="lg:col-span-1 bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+        <div class="text-center space-y-3">
+          <div class="mx-auto w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 flex items-center justify-center font-bold text-white text-3xl shadow-lg">
+            KS
+          </div>
+          <div>
+            <h3 class="font-bold text-lg" id="gam-name">Dr. Kartika Sari, M.Pd.</h3>
+            <p class="text-xs text-slate-400">Fasilitator Nasional</p>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/60 text-center">
+          <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mb-1">PROGRES LEVEL BERJALAN</span>
+          <span id="gam-level-display" class="text-3xl font-black text-indigo-400">Level 4</span>
+          <div class="w-full h-2 bg-slate-800 rounded-full mt-3 overflow-hidden">
+            <div id="gam-xp-progress" class="h-full bg-gradient-to-r from-indigo-500 to-purple-500" style="width: 84%;"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-slate-500 mt-1.5">
+            <span id="gam-xp-nums">4200 EXP</span>
+            <span>5000 EXP</span>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Lencana Kehormatan Anda</h4>
+          <div class="space-y-2 text-xs">
+            <div class="flex items-center gap-3 p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+              <div class="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                <i data-lucide="award" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <p class="font-bold text-slate-200">HOTS Creator</p>
+                <p class="text-[10px] text-slate-500">Buat 5 instrumen soal HOTS valid.</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+              <div class="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                <i data-lucide="award" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <p class="font-bold text-slate-200">Lab Pioneer</p>
+                <p class="text-[10px] text-slate-500">Selesaikan simulasi titrasi asam basa.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+        <div>
+          <h3 class="text-lg font-bold">Papan Peringkat Kompetensi Nasional</h3>
+          <p class="text-xs text-slate-400">Apresiasi guru penggerak penemu solusi pembelajaran kritis teraktif.</p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-4 rounded-xl border bg-slate-950/40 border-slate-800 text-xs">
+            <div class="flex gap-4 items-center">
+              <div class="w-8 h-8 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center font-black">1</div>
+              <div>
+                <h4 class="font-bold text-slate-200">Drs. Budi Santoso, M.Si.</h4>
+                <p class="text-[10px] text-slate-500">SMA Penggerak Semarang</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="px-1.5 py-0.5 bg-indigo-500/10 text-indigo-300 text-[9px] font-bold rounded">LVL 12</span>
+              <p class="text-[10px] text-slate-500 font-bold mt-1">12,400 EXP</p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between p-4 rounded-xl border bg-indigo-950/20 border-indigo-500/30 text-xs">
+            <div class="flex gap-4 items-center">
+              <div class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-black">2</div>
+              <div>
+                <h4 class="font-bold text-slate-200">Dr. Kartika Sari, M.Pd. (Anda)</h4>
+                <p class="text-[10px] text-slate-500">SMA Negeri 1 Jakarta</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="px-1.5 py-0.5 bg-indigo-500/10 text-indigo-300 text-[9px] font-bold rounded" id="leaderboard-self-lvl">LVL 4</span>
+              <p class="text-[10px] text-slate-500 font-bold mt-1" id="leaderboard-self-xp">4,200 EXP</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 8. TAB REPOSITORY ================= -->
+    <div id="tab-repository" class="tab-content hidden space-y-6 animate-fade-in">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-black">Repository Inovasi Media Ajar Guru</h2>
+          <p class="text-xs text-slate-400">Pustaka digital bagi guru se-Indonesia untuk menyebarluaskan bahan ajar kreatif buatan mandiri.</p>
+        </div>
+        <button onclick="openUploadModal()" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shadow-md shadow-indigo-600/20">
+          <i data-lucide="plus" class="w-4 h-4"></i> Unggah Karya Inovasi
+        </button>
+      </div>
+
+      <!-- Filter Types -->
+      <div class="flex flex-wrap gap-2">
+        <button onclick="filterInovasi('Semua')" class="repo-filter-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-800 text-indigo-400 border border-indigo-500/30">Semua</button>
+        <button onclick="filterInovasi('Modul HOTS')" class="repo-filter-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 border border-slate-800">Modul HOTS</button>
+        <button onclick="filterInovasi('Modul Interaktif')" class="repo-filter-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 border border-slate-800">Modul Interaktif</button>
+      </div>
+
+      <!-- Innovation Grid -->
+      <div id="repo-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamically Populated -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Utama -->
+  <footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p>© 2026 SinergiHOTS National EdTech Hub. Dikembangkan untuk Akselerasi Mutu Pendidikan Menengah Atas.</p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-slate-300 font-medium">Panduan Rencana HOTS</a>
+        <a href="#" class="hover:text-slate-300 font-medium">Bantuan AI</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODAL DIALOGS ================= -->
+  
+  <!-- Rancang Soal HOTS Modal -->
+  <div id="hots-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
+      <div class="px-6 py-4 bg-slate-950/50 border-b border-slate-800 flex justify-between items-center">
+        <h3 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+          <i data-lucide="brain" class="w-5 h-5 text-indigo-500"></i> Rancang Butir Soal HOTS
+        </h3>
+        <button onclick="closeHotsModal()" class="text-slate-400 hover:text-slate-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleCreateHotsSubmit(event)" class="p-6 space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Mata Pelajaran</label>
+            <select id="modal-hots-subject" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 outline-none">
+              <option value="Fisika">Fisika</option>
+              <option value="Kimia">Kimia</option>
+              <option value="Biologi">Biologi</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Tingkat Kognitif</label>
+            <input type="text" disabled value="Menganalisis & Mengkreasi (C4-C6)" class="w-full bg-slate-950/50 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-500 outline-none">
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Stimulus Kontekstual (Isi Berita, Data Kasus, Grafik)</label>
+          <textarea id="modal-hots-stimulus" rows="3" placeholder="Misal: Penemuan polimer hidrogel superabsorben biodegradable yang mampu menyimpan air 500x lipat di tanah kering..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 outline-none" required></textarea>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Pertanyaan Analitis</label>
+          <textarea id="modal-hots-question" rows="2" placeholder="Bagaimana modifikasi fungsional hidrogel tersebut memengaruhi ketahanan vegetasi di daerah rawan kekeringan?" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 outline-none" required></textarea>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800 flex justify-end gap-3">
+          <button type="button" onclick="closeHotsModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition-all">Batal</button>
+          <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition-all">Publikasikan Soal (+100 EXP)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Unggah Inovasi Modal -->
+  <div id="upload-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-scale-in">
+      <div class="px-6 py-4 bg-slate-950/50 border-b border-slate-800 flex justify-between items-center">
+        <h3 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+          <i data-lucide="share-2" class="w-5 h-5 text-indigo-500"></i> Bagikan Media Pembelajaran
+        </h3>
+        <button onclick="closeUploadModal()" class="text-slate-400 hover:text-slate-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleUploadSubmit(event)" class="p-6 space-y-4">
+        <div class="space-y-1">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Judul Inovasi / Media Ajar</label>
+          <input id="modal-upload-title" type="text" placeholder="Misal: Modul LKPD Elektrolisis Berbasis Android..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 outline-none" required>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Kategori Media</label>
+          <select id="modal-upload-type" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 outline-none">
+            <option value="Modul HOTS">Modul HOTS</option>
+            <option value="Modul Interaktif">Modul Interaktif</option>
+          </select>
+        </div>
+
+        <div class="p-6 bg-slate-950 rounded-xl border border-dashed border-slate-800 text-center flex flex-col items-center justify-center space-y-2">
+          <i data-lucide="upload" class="w-8 h-8 text-slate-600"></i>
+          <p class="text-xs text-slate-300 font-bold">Simulasi Pilih Berkas</p>
+          <p class="text-[10px] text-slate-500">Mendukung dokumen PDF, PPT, ZIP</p>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800 flex justify-end gap-3">
+          <button type="button" onclick="closeUploadModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition-all">Batal</button>
+          <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition-all">Selesaikan Pengunggahan (+100 EXP)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ================= JAVASCRIPT STATE ENGINE ================= -->
+  <script>
+    // === Konfigurasi Satelit Utama & Model Gemini ===
+    const apiKey = ""; // Konfigurasi API-Key otomatis runtime platform
+    const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+
+    // Pangkalan data lokal simulasi chatbot jika API Key kosong
+    const fallbackResponses = [
+      {
+        keyword: "rpp",
+        answer: "Tentu! Berikut draf RPP 1 Lembar Berbasis HOTS:\n\n**Mata Pelajaran:** Fisika\n**Kelas/Semester:** XI / Ganjil\n**Materi:** Gelombang Elektromagnetik\n**Model:** Project-Based Learning (PjBL)\n\n**Langkah Sintaksis:**\n1. *Pertanyaan Mendasar:* Mengapa sinar UV berlebih berbahaya bagi kulit manusia?\n2. *Desain Proyek:* Merancang purwarupa detektor intensitas UV sederhana.\n3. *Monitoring:* Kelompok menyusun lini masa perakitan sensor photodiode.\n4. *Evaluasi:* Pengujian detektor di bawah sinar matahari langsung."
+      },
+      {
+        keyword: "kimia",
+        answer: "Pembelajaran kimia berbasis HOTS membutuhkan stimulus dunia nyata. Sebagai contoh:\n- Konsep **Laju Reaksi**: Analisis pengaruh polusi sulfur dioksida ($SO_2$) terhadap laju korosi monumen nasional logam tembaga.\n- Konsep **Sistem Penyangga**: Bagaimana sistem buffer karbonat ($H_2CO_3/HCO_3^-$) di dalam darah manusia bekerja mempertahankan pH 7.4 secara dinamis saat olahraga intensif."
+      },
+      {
+        keyword: "biologi",
+        answer: "Ide Pembelajaran HOTS Biologi tentang **Bioteknologi**:\nSiswa diajak mengkaji data kegagalan kloning mamalia lalu mendiskusikan batasan bioetika ilmiah. Pertanyaan analisis kritis: 'Jika kloning manusia berhasil secara medis, sejauh mana modifikasi genetis dapat diterima secara kemanusiaan?'"
+      },
+      {
+        keyword: "default",
+        answer: "Menarik sekali! Mari kita rancang strategi pembelajaran interaktif. Bisakah Anda memberikan konteks materi ajar atau mata pelajaran spesifik (Fisika/Kimia/Biologi) yang ingin Anda kembangkan agar saya dapat memberi draf instruksional yang lebih presisi?"
+      }
+    ];
+
+    const state = {
+      userProfile: {
+        name: "Dr. Kartika Sari, M.Pd.",
+        school: "SMA Negeri 1 Jakarta",
+        level: 4,
+        exp: 4200,
+        nextLevelExp: 5000,
+        badges: ["HOTS Creator", "AI Explorer", "Lab Pioneer", "Inovator Nasional"]
+      },
+      selectedClassIdx: 0,
+      classes: [
+        { 
+          id: 1, 
+          subject: "Fisika - Kelas XI", 
+          title: "Gelombang Elektromagnetik & Optika Geometri", 
+          banner: "from-indigo-950 via-slate-900 to-indigo-900",
+          progress: 68,
+          modules: [
+            { title: "Pengantar Gelombang Mekanik", dur: "12 menit", type: "Video", done: true },
+            { title: "Hukum Snellius & Pembiasan Cahaya", dur: "45 Halaman", type: "PDF", done: true },
+            { title: "Desain Alat Optik Sederhana (HOTS)", dur: "Mandiri", type: "Tugas", done: false },
+            { title: "Latihan Soal Ujian Tengah Semester", dur: "20 Soal", type: "Kuis", done: false }
+          ]
+        },
+        { 
+          id: 2, 
+          subject: "Kimia - Kelas XI", 
+          title: "Asam Basa, pH, dan Sistem Penyangga", 
+          banner: "from-teal-900 to-slate-900",
+          progress: 45,
+          modules: [
+            { title: "Konsep Dasar pH & Kekuatan Asam", dur: "15 menit", type: "Video", done: true },
+            { title: "Uji Indikator Alami dengan Ekstrak Kunyit", dur: "Simulasi Lab", type: "Praktikum", done: false },
+            { title: "Menentukan Titik Ekuivalen Asam-Basa", dur: "10 Soal", type: "Kuis", done: false }
+          ]
+        }
+      ],
+      messages: [
+        { role: 'assistant', text: 'Halo! Saya EduAI Assistant SinergiHOTS. Saya dapat membantu Anda merumuskan Rencana Pelaksanaan Pembelajaran (RPP), merancang stimulus soal HOTS, atau menjelaskan konsep sains yang kompleks dengan pendekatan berpikir tingkat tinggi. Silakan ketik pertanyaan Anda!' }
+      ],
+      chatLoading: false,
+      selectedQuestionId: 1,
+      questions: [
+        {
+          id: 1,
+          subject: "Fisika",
+          topic: "Optika & Efek Rumah Kaca",
+          stimulus: "Sebuah panel surya dirancang menggunakan cermin parabola pemusat cahaya untuk meningkatkan efisiensi penyerapan energi matahari. Namun, saat kondisi mendung, cahaya yang diterima tidak terfokus sempurna pada satu titik fokus utama.",
+          question: "Analisislah modifikasi geometris atau optis apa yang paling optimal dilakukan pada cermin pemusat agar energi panas tetap terdistribusi merata ke sel fotovoltaik meskipun intensitas cahaya matahari tidak konstan akibat tutupan awan.",
+          analysis: {
+            transfer: "Memetakan konversi energi radiasi matahari ke energi termal/listrik menggunakan prinsip pemantulan cermin.",
+            critical: "Mengevaluasi kelemahan cermin parabola statis saat menerima cahaya difus (tersebar) di cuaca berawan.",
+            problem: "Mengusulkan solusi pemfokusan adaptif (dinamis) atau pelapis antirefleksi untuk optimalisasi penyerapan."
+          },
+          creator: "Kemendikbudristek"
+        },
+        {
+          id: 2,
+          subject: "Kimia",
+          topic: "Kesetimbangan Kimia dalam Industri",
+          stimulus: "Pada pembuatan amonia dengan Proses Haber-Bosch (N2 + 3H2 ⇌ 2NH3, ΔH = -92.4 kJ/mol), tekanan dan suhu diatur sedemikian rupa untuk menyeimbangkan laju reaksi dan hasil rendemen amonia yang optimum.",
+          question: "Mengapa kenaikan suhu yang berlebihan justru menurunkan efisiensi konversi gas nitrogen secara ekonomis pada industri skala besar, meskipun laju reaksinya meningkat pesat? Hubungkan jawaban Anda dengan asas Le Chatelier.",
+          analysis: {
+            transfer: "Menghubungkan konsep entalpi reaksi eksoterm dengan pergeseran kesetimbangan.",
+            critical: "Menilai kontradiksi antara faktor kinetika (cepat lambatnya reaksi) dengan termodinamika.",
+            problem: "Mendesain kompromi operasional (suhu optimum terkendali) dengan bantuan katalisator besi."
+          },
+          creator: "SMA Negeri 1 Jakarta"
+        }
+      ],
+      // Virtual Lab states
+      indicator: 'PP',
+      isTitrasiRunning: false,
+      volumeAdded: 0,
+      acidConc: 0.1,
+      baseConc: 0.1,
+      acidVolume: 50,
+      labInterval: null,
+      // PjBL tasks
+      tasks: [
+        { id: 1, title: "1. Pertanyaan Mendasar", desc: "Tentukan masalah lingkungan di sekitar sekolah untuk dicarikan solusi kelistrikannya.", status: "to-do" },
+        { id: 2, title: "2. Mendesain Rencana Proyek", desc: "Siswa menggambar prototipe turbin angin sederhana menggunakan botol plastik bekas.", status: "to-do" },
+        { id: 3, title: "3. Menyusun Jadwal Kerja", desc: "Buat lini masa pembuat prototipe, pengujian, dan presentasi akhir (2 minggu).", status: "to-do" },
+        { id: 4, title: "4. Memonitor Aktivitas Proyek", desc: "Guru mencatat kontribusi masing-masing kelompok di lembar observasi digital.", status: "doing" },
+        { id: 5, title: "5. Menguji Hasil & Presentasi", desc: "Demonstrasi kincir angin menghasilkan arus voltase listrik kecil menggunakan voltmeter.", status: "done" }
+      ],
+      // Repository
+      repoFilter: 'Semua',
+      innovations: [
+        { id: 1, title: "Modul LKPD Mandiri Hidrolisis Garam", author: "Rini Astuti, S.Pd.", downloads: 245, likes: 82, type: "Modul HOTS", ext: "PDF" },
+        { id: 2, title: "Kit Alat Peraga Pemantulan Cembung", author: "Heri Priyono, M.Pd.", downloads: 124, likes: 45, type: "Modul HOTS", ext: "ZIP" },
+        { id: 3, title: "Slide Presentasi Interaktif Genetika Mendelian", author: "Dr. Lukman Hakim", downloads: 520, likes: 189, type: "Modul Interaktif", ext: "PPTX" }
+      ]
+    };
+
+    // Exponential Backoff API Fetch
+    async function fetchWithBackoff(url, options, retries = 5, delay = 1000) {
+      try {
+        const res = await fetch(url, options);
+        if (!res.ok) {
+          if (res.status === 429 && retries > 0) {
+            await new Promise(resolve => setTimeout(resolve, delay));
+            return fetchWithBackoff(url, options, retries - 1, delay * 2);
+          }
+          throw new Error(`HTTP Error: ${res.status}`);
+        }
+        return res;
+      } catch (err) {
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, delay));
+          return fetchWithBackoff(url, options, retries - 1, delay * 2);
+        }
+        throw err;
+      }
+    }
+
+    // === UI Notification Toast ===
+    function showNotification(message) {
+      const toast = document.getElementById('toast');
+      const msgSpan = document.getElementById('toast-message');
+      msgSpan.textContent = message;
+      toast.classList.remove('hidden', 'translate-y-5', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-5', 'opacity-0');
+        setTimeout(() => toast.classList.add('hidden'), 300);
+      }, 4000);
+    }
+
+    // === Tambah Poin EXP ===
+    function addExp(amount) {
+      state.userProfile.exp += amount;
+      if (state.userProfile.exp >= state.userProfile.nextLevelExp) {
+        state.userProfile.exp -= state.userProfile.nextLevelExp;
+        state.userProfile.level += 1;
+        showNotification(`🎉 Selamat! Anda naik ke Level ${state.userProfile.level}!`);
+      } else {
+        showNotification(`✨ +${amount} EXP ditambahkan!`);
+      }
+      updateProfileUI();
+    }
+
+    // === Memperbarui Antarmuka Pengguna Profil ===
+    function updateProfileUI() {
+      const percentage = (state.userProfile.exp / state.userProfile.nextLevelExp) * 100;
+      
+      // Desktop Header
+      document.getElementById('profile-lvl-badge').textContent = `LVL ${state.userProfile.level}`;
+      document.getElementById('profile-xp-bar').style.width = `${percentage}%`;
+      
+      // Mobile Drawer
+      document.getElementById('mobile-lvl-badge').textContent = `LVL ${state.userProfile.level}`;
+      document.getElementById('mobile-xp-bar').style.width = `${percentage}%`;
+
+      // Gamification tab view
+      const gamLvl = document.getElementById('gam-level-display');
+      if (gamLvl) gamLvl.textContent = `Level ${state.userProfile.level}`;
+      const gamXpBar = document.getElementById('gam-xp-progress');
+      if (gamXpBar) gamXpBar.style.width = `${percentage}%`;
+      const gamXpNums = document.getElementById('gam-xp-nums');
+      if (gamXpNums) gamXpNums.textContent = `${state.userProfile.exp} EXP`;
+
+      // Leaderboard
+      const leadLvl = document.getElementById('leaderboard-self-lvl');
+      const leadXp = document.getElementById('leaderboard-self-xp');
+      if (leadLvl) leadLvl.textContent = `LVL ${state.userProfile.level}`;
+      if (leadXp) leadXp.textContent = `${state.userProfile.exp.toLocaleString()} EXP`;
+    }
+
+    // === Manajemen Tab Switching ===
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.className = "nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50";
+      });
+      
+      const activeNav = document.getElementById(`nav-${tabId}`);
+      if (activeNav) {
+        activeNav.className = "nav-btn flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
+      }
+
+      // Initializations spesifik per-Tab
+      if (tabId === 'lms') renderSyllabus();
+      if (tabId === 'ai-assistant') renderChat();
+      if (tabId === 'hots-bank') renderHotsBank();
+      if (tabId === 'pjbl-planner') renderPjBLPlanner();
+      if (tabId === 'repository') renderRepository();
+      
+      lucide.createIcons();
+    }
+
+    // === Mobile Navigation Drawer Control ===
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+
+    // ================= 1. LMS LOGIC =================
+    function selectClass(idx) {
+      state.selectedClassIdx = idx;
+      document.querySelectorAll('.class-card').forEach(card => {
+        card.className = "class-card p-5 rounded-2xl border cursor-pointer transition-all bg-slate-900/50 border-slate-800 hover:bg-slate-800/40";
+      });
+      const selected = document.getElementById(`class-card-${idx}`);
+      if (selected) {
+        selected.className = "class-card p-5 rounded-2xl border cursor-pointer transition-all bg-slate-900 border-indigo-500/50 shadow-lg";
+      }
+
+      // Update Banner Kelas
+      const cls = state.classes[idx];
+      const banner = document.getElementById('class-banner');
+      banner.className = `p-8 rounded-3xl bg-gradient-to-r ${cls.banner} border border-white/5`;
+      banner.innerHTML = `
+        <span class="px-2.5 py-1 bg-white/10 rounded text-xs font-bold uppercase tracking-wider">${cls.subject}</span>
+        <h3 class="text-xl md:text-2xl font-black mt-2 leading-tight">${cls.title}</h3>
+        <p class="text-slate-300 text-xs mt-1">Materi kurikulum terintegrasi dengan simulasi laboratorium virtual.</p>
+      `;
+
+      renderSyllabus();
+    }
+
+    function renderSyllabus() {
+      const cls = state.classes[state.selectedClassIdx];
+      const list = document.getElementById('syllabus-list');
+      list.innerHTML = cls.modules.map((mod, i) => `
+        <div class="flex items-center justify-between p-4 rounded-xl border transition-all ${
+          mod.done ? 'bg-indigo-950/20 border-indigo-500/20' : 'bg-slate-950/40 border-slate-800 hover:border-slate-700'
+        }">
+          <div class="flex gap-4 items-center">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+              mod.done ? 'bg-indigo-500/10 text-indigo-400' : 'bg-slate-800 text-slate-500'
+            }">
+              <i data-lucide="${mod.type === 'Video' ? 'play' : mod.type === 'PDF' ? 'file-text' : 'clock'}" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-bold ${mod.done ? 'text-indigo-200' : 'text-slate-200'}">${mod.title}</p>
+              <div class="flex gap-2 items-center mt-1">
+                <span class="text-[10px] text-slate-500 font-medium">${mod.type}</span>
+                <span class="w-1 h-1 bg-slate-700 rounded-full"></span>
+                <span class="text-[10px] text-slate-500 font-medium">${mod.dur}</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            ${mod.done ? `
+              <span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-lg text-[10px] font-bold flex items-center gap-1">
+                <i data-lucide="check" class="w-3 h-3"></i> Selesai
+              </span>
+            ` : `
+              <button onclick="completeSyllabusMod(${i})" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-[10px] font-bold transition-all">Buka Materi</button>
+            `}
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function completeSyllabusMod(idx) {
+      state.classes[state.selectedClassIdx].modules[idx].done = true;
+      addExp(50);
+      renderSyllabus();
+    }
+
+
+    // ================= 2. LOGIKA ASISTEN EDUAI CHATBOT =================
+    function renderChat() {
+      const chatContainer = document.getElementById('chat-messages');
+      chatContainer.innerHTML = state.messages.map(msg => `
+        <div class="flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in">
+          <div class="max-w-xl px-4 py-3 rounded-2xl text-xs md:text-sm leading-relaxed ${
+            msg.role === 'user' 
+              ? 'bg-indigo-600 text-white rounded-br-none' 
+              : 'bg-slate-950/60 border border-slate-800/80 text-slate-200 rounded-bl-none'
+          }">
+            ${msg.text.split('\n\n').map(p => `<p class="mb-2 last:mb-0">${p}</p>`).join('')}
+          </div>
+        </div>
+      `).join('');
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function clearChat() {
+      state.messages = [{ role: 'assistant', text: 'Sesi chat dibersihkan. Silakan ajukan pertanyaan kurikulum baru.' }];
+      renderChat();
+    }
+
+    // Model pendeteksi intent/jawaban lokal jika API Key belum dipasang
+    function getFallbackResponse(userInput) {
+      const cleanInput = userInput.toLowerCase();
+      let matched = fallbackResponses.find(res => cleanInput.includes(res.keyword));
+      if (!matched) {
+        matched = fallbackResponses.find(res => res.keyword === 'default');
+      }
+      return matched.answer;
+    }
+
+    async function handleChatSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      state.messages.push({ role: 'user', text: text });
+      input.value = '';
+      renderChat();
+
+      // Indikator Loading Visual
+      const chatContainer = document.getElementById('chat-messages');
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'chat-loading';
+      loadingDiv.className = "flex justify-start";
+      loadingDiv.innerHTML = `
+        <div class="bg-slate-950/60 border border-slate-800/80 text-slate-400 px-4 py-3 rounded-2xl rounded-bl-none text-sm flex items-center gap-3">
+          <svg class="animate-spin h-4 w-4 text-indigo-400" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+          </svg>
+          <span class="text-xs">EduAI sedang memproses analisis tingkat tinggi...</span>
+        </div>
+      `;
+      chatContainer.appendChild(loadingDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      // Cek apakah API Key telah dipasang untuk query ke Gemini API
+      if (apiKey && apiKey !== "") {
+        document.getElementById('ai-engine-model').textContent = "Google Gemini Pro API";
+        try {
+          const sysPrompt = `Anda adalah EduAI Assistant dalam platform SinergiHOTS, sebuah portal EdTech premium nasional untuk guru SMA di Indonesia. Jawab secara mendalam, kritis, ramah, dan solutif menggunakan Bahasa Indonesia yang baku. Gunakan analogi ilmiah yang kuat.`;
+          
+          const response = await fetchWithBackoff(`${GEMINI_API_URL}?key=${apiKey}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: text }] }],
+              systemInstruction: { parts: [{ text: sysPrompt }] }
+            })
+          });
+
+          const data = await response.json();
+          const output = data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, mesin AI gagal memproses jawaban. Silakan coba kembali.";
+          
+          document.getElementById('chat-loading')?.remove();
+          state.messages.push({ role: 'assistant', text: output });
+          addExp(30);
+          renderChat();
+        } catch (err) {
+          document.getElementById('chat-loading')?.remove();
+          state.messages.push({ role: 'assistant', text: "Gagal menghubungkan ke satelit AI. Menggunakan respons cerdas lokal alternatif..." });
+          renderChat();
+        }
+      } else {
+        // Fallback respon cerdas lokal instan (0.8 detik delay untuk sensasi natural)
+        setTimeout(() => {
+          document.getElementById('chat-loading')?.remove();
+          const localAnswer = getFallbackResponse(text);
+          state.messages.push({ role: 'assistant', text: localAnswer });
+          addExp(20);
+          renderChat();
+        }, 800);
+      }
+    }
+
+    function sendAiTemplate(prompt) {
+      document.getElementById('chat-input').value = prompt;
+      handleChatSubmit();
+    }
+
+
+    // ================= 3. LOGIKA BANK SOAL HOTS =================
+    function renderHotsBank() {
+      const sidebar = document.getElementById('hots-sidebar-list');
+      sidebar.innerHTML = state.questions.map(q => `
+        <div onclick="selectQuestion(${q.id})" class="p-4 rounded-xl border text-left cursor-pointer transition-all ${
+          state.selectedQuestionId === q.id 
+            ? 'bg-slate-900 border-indigo-500/50' 
+            : 'bg-slate-900/40 border-slate-800 hover:border-slate-700'
+        }">
+          <div class="flex justify-between items-center mb-2">
+            <span class="px-2 py-0.5 bg-indigo-500/10 text-indigo-300 text-[9px] font-bold uppercase rounded border border-indigo-500/20">${q.subject}</span>
+            <span class="text-[9px] text-slate-500 font-semibold">Oleh: ${q.creator}</span>
+          </div>
+          <h4 class="font-bold text-xs text-slate-200 mb-1 line-clamp-1">${q.topic}</h4>
+          <p class="text-[11px] text-slate-400 line-clamp-2">${q.stimulus}</p>
+        </div>
+      `).join('');
+
+      renderHotsDetail();
+    }
+
+    function selectQuestion(id) {
+      state.selectedQuestionId = id;
+      renderHotsBank();
+    }
+
+    function renderHotsDetail() {
+      const container = document.getElementById('hots-detail-container');
+      const q = state.questions.find(item => item.id === state.selectedQuestionId);
+      
+      if (!q) {
+        container.innerHTML = `<p class="text-xs text-slate-400">Pilih salah satu instrumen soal.</p>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">${q.subject}</span>
+            <h3 class="text-lg font-bold text-slate-100">${q.topic}</h3>
+          </div>
+          <div class="text-right">
+            <span class="px-2 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-black rounded">HOTS / C4-C6</span>
+          </div>
+        </div>
+
+        <div class="space-y-2 bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <span class="text-[10px] text-amber-400 font-black uppercase tracking-wider block">STIMULUS (Kasus Kontekstual)</span>
+          <p class="text-xs text-slate-300 leading-relaxed italic">"${q.stimulus}"</p>
+        </div>
+
+        <div class="space-y-2">
+          <span class="text-[10px] text-indigo-400 font-black uppercase tracking-wider block">PERTANYAAN ANALITIS</span>
+          <p class="text-sm text-slate-100 font-medium leading-relaxed">${q.question}</p>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800 space-y-4">
+          <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+            <i data-lucide="brain" class="w-4 h-4 text-purple-400"></i> Matriks Analisis HOTS (Taksonomi Bloom)
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800">
+              <span class="text-[9px] font-black text-blue-400 block mb-1">1. Transfer Knowledge</span>
+              <p class="text-[10px] text-slate-400 leading-normal">${q.analysis.transfer}</p>
+            </div>
+            <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800">
+              <span class="text-[9px] font-black text-purple-400 block mb-1">2. Critical Thinking</span>
+              <p class="text-[10px] text-slate-400 leading-normal">${q.analysis.critical}</p>
+            </div>
+            <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800">
+              <span class="text-[9px] font-black text-pink-400 block mb-1">3. Problem Solving</span>
+              <p class="text-[10px] text-slate-400 leading-normal">${q.analysis.problem}</p>
+            </div>
+          </div>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    function openHotsModal() {
+      document.getElementById('hots-modal').classList.remove('hidden');
+    }
+    function closeHotsModal() {
+      document.getElementById('hots-modal').classList.add('hidden');
+    }
+
+    function handleCreateHotsSubmit(e) {
+      e.preventDefault();
+      const subject = document.getElementById('modal-hots-subject').value;
+      const stimulus = document.getElementById('modal-hots-stimulus').value;
+      const questionText = document.getElementById('modal-hots-question').value;
+
+      const newQ = {
+        id: state.questions.length + 1,
+        subject: subject,
+        topic: `Evaluasi HOTS Mandiri ${state.questions.length + 1}`,
+        stimulus: stimulus,
+        question: questionText,
+        analysis: {
+          transfer: "Mengevaluasi variabel dari stimulus berita lokal.",
+          critical: "Menguji validitas fungsionalitas solusi.",
+          problem: "Merumuskan model rancangan teknologi berkelanjutan."
+        },
+        creator: "Dr. Kartika Sari, M.Pd."
+      };
+
+      state.questions.unshift(newQ);
+      state.selectedQuestionId = newQ.id;
+      
+      closeHotsModal();
+      addExp(100);
+      renderHotsBank();
+      
+      document.getElementById('modal-hots-stimulus').value = '';
+      document.getElementById('modal-hots-question').value = '';
+    }
+
+
+    // ================= 4. LOGIKA VIRTUAL LAB TITRASI =================
+    function calculatePhValue() {
+      const totalVolume = state.acidVolume + state.volumeAdded;
+      const molesAcid = (state.acidConc * state.acidVolume) / 1000;
+      const molesBase = (state.baseConc * state.volumeAdded) / 1000;
+
+      if (molesAcid > molesBase) {
+        const remainingH = molesAcid - molesBase;
+        const concH = remainingH / (totalVolume / 1000);
+        return parseFloat((-Math.log10(concH)).toFixed(2));
+      } else if (molesBase > molesAcid) {
+        const remainingOH = molesBase - molesAcid;
+        const concOH = remainingOH / (totalVolume / 1000);
+        return parseFloat((14 - (-Math.log10(concOH))).toFixed(2));
+      } else {
+        return 7.00; // Equivalen
+      }
+    }
+
+    function getSolutionColor() {
+      const ph = calculatePhValue();
+      if (state.indicator === 'PP') {
+        if (ph < 8.2) return 'bg-slate-100/40';
+        if (ph >= 8.2 && ph < 10) return 'bg-pink-300/60';
+        return 'bg-pink-600/80';
+      } else {
+        if (ph < 6.0) return 'bg-yellow-200/50';
+        if (ph >= 6.0 && ph <= 7.6) return 'bg-emerald-300/50';
+        return 'bg-blue-600/70';
+      }
+    }
+
+    function updateLabVisuals() {
+      const ph = calculatePhValue();
+      const colorClass = getSolutionColor();
+      
+      // Sinkronisasi display sensor digital
+      document.getElementById('ph-digital-display').textContent = ph.toFixed(2);
+      document.getElementById('display-ph-total').textContent = ph.toFixed(2);
+      document.getElementById('display-added-total').textContent = `${state.volumeAdded} mL`;
+      document.getElementById('volume-added-display').textContent = `${state.volumeAdded} mL`;
+
+      // Visualisasi Buret (Cairan berkurang)
+      const buretLiq = document.getElementById('buret-liquid');
+      buretLiq.style.height = `${100 - state.volumeAdded}%`;
+
+      // Visualisasi Erlenmeyer (Cairan bertambah & perubahan warna)
+      const solution = document.getElementById('flask-solution');
+      solution.className = `w-full transition-all duration-300 ${colorClass}`;
+      solution.style.height = `${30 + (state.volumeAdded * 0.4)}%`;
+
+      // Update Posisi Pin Koordinat Sensor pH
+      const dot = document.getElementById('curve-dot');
+      dot.setAttribute('cx', state.volumeAdded);
+      dot.setAttribute('cy', 100 - (ph * 6.4));
+    }
+
+    function toggleTitrasi() {
+      const btn = document.getElementById('toggle-titrasi-btn');
+      const drip = document.getElementById('drip-animation');
+
+      if (state.isTitrasiRunning) {
+        clearInterval(state.labInterval);
+        state.isTitrasiRunning = false;
+        btn.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> Mulai Aliran Titrasi`;
+        drip.classList.add('hidden');
+      } else {
+        state.isTitrasiRunning = true;
+        btn.innerHTML = `<i data-lucide="pause" class="w-4 h-4 animate-pulse"></i> Hentikan Aliran`;
+        drip.classList.remove('hidden');
+
+        state.labInterval = setInterval(() => {
+          if (state.volumeAdded >= 100) {
+            toggleTitrasi();
+            showNotification("Buret bervolume maksimum 100 mL telah habis.");
+            return;
+          }
+          state.volumeAdded = parseFloat((state.volumeAdded + 0.5).toFixed(1));
+          updateLabVisuals();
+        }, 120);
+      }
+      lucide.createIcons();
+    }
+
+    function addTitrasiDrop() {
+      if (state.volumeAdded >= 100) return;
+      state.volumeAdded = parseFloat((state.volumeAdded + 0.5).toFixed(1));
+      updateLabVisuals();
+    }
+
+    function resetLab() {
+      if (state.isTitrasiRunning) toggleTitrasi();
+      state.volumeAdded = 0;
+      updateLabVisuals();
+    }
+
+    function setLabIndicator(ind) {
+      state.indicator = ind;
+      document.getElementById('indicator-btn-PP').className = ind === 'PP' 
+        ? "p-3 rounded-xl border text-center transition-all bg-slate-950 text-pink-400 border-pink-500/30 font-bold text-xs"
+        : "p-3 rounded-xl border text-center transition-all bg-slate-950/40 border-slate-800 text-slate-400 text-xs";
+      
+      document.getElementById('indicator-btn-BTB').className = ind === 'BTB' 
+        ? "p-3 rounded-xl border text-center transition-all bg-slate-950 text-cyan-400 border-cyan-500/30 font-bold text-xs"
+        : "p-3 rounded-xl border text-center transition-all bg-slate-950/40 border-slate-800 text-slate-400 text-xs";
+      
+      updateLabVisuals();
+    }
+
+    function recalculatePhVal() {
+      state.acidConc = parseFloat(document.getElementById('lab-acid-conc').value) || 0.1;
+      state.acidVolume = parseFloat(document.getElementById('lab-acid-vol').value) || 50;
+      state.baseConc = parseFloat(document.getElementById('lab-base-conc').value) || 0.1;
+      updateLabVisuals();
+    }
+
+    function saveLabTrial() {
+      addExp(50);
+      showNotification("Hasil eksperimen virtual laboratorium disimpan ke database lokal.");
+    }
+
+
+    // ================= 5. LOGIKA PAPAN KANBAN PjBL PLANNER =================
+    function renderPjBLPlanner() {
+      const todoBox = document.getElementById('todo-tasks-container');
+      const doingBox = document.getElementById('doing-tasks-container');
+      const doneBox = document.getElementById('done-tasks-container');
+
+      const todos = state.tasks.filter(t => t.status === 'to-do');
+      const doings = state.tasks.filter(t => t.status === 'doing');
+      const dones = state.tasks.filter(t => t.status === 'done');
+
+      document.getElementById('todo-count').textContent = todos.length;
+      document.getElementById('doing-count').textContent = doings.length;
+      document.getElementById('done-count').textContent = dones.length;
+
+      todoBox.innerHTML = todos.map(t => `
+        <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-3">
+          <h5 class="text-xs font-bold text-slate-200">${t.title}</h5>
+          <p class="text-[11px] text-slate-400 leading-normal">${t.desc}</p>
+          <div class="flex justify-end pt-2 border-t border-slate-800/50">
+            <button onclick="moveTask(${t.id}, 'doing')" class="px-2.5 py-1 bg-slate-800 hover:bg-indigo-600/20 hover:text-indigo-400 text-slate-400 rounded text-[9px] font-bold transition-all">Kerjakan Progres</button>
+          </div>
+        </div>
+      `).join('');
+
+      doingBox.innerHTML = doings.map(t => `
+        <div class="p-4 bg-slate-950 border border-amber-500/20 rounded-xl space-y-3 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+          <h5 class="text-xs font-bold text-slate-200">${t.title}</h5>
+          <p class="text-[11px] text-slate-400 leading-normal">${t.desc}</p>
+          <div class="flex gap-2 justify-end pt-2 border-t border-slate-800/50">
+            <button onclick="moveTask(${t.id}, 'to-do')" class="px-2 py-1 bg-slate-800 text-slate-400 rounded text-[9px] font-bold transition-all">Kembalikan</button>
+            <button onclick="moveTask(${t.id}, 'done')" class="px-2 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-[9px] font-bold transition-all">Selesaikan Proyek</button>
+          </div>
+        </div>
+      `).join('');
+
+      doneBox.innerHTML = dones.map(t => `
+        <div class="p-4 bg-indigo-950/20 border border-indigo-500/10 rounded-xl space-y-3 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+          <h5 class="text-xs font-bold text-indigo-300 flex items-center gap-1">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> ${t.title}
+          </h5>
+          <p class="text-[11px] text-slate-500 leading-normal line-through">${t.desc}</p>
+          <div class="flex justify-end pt-2 border-t border-slate-800/50">
+            <button onclick="moveTask(${t.id}, 'doing')" class="px-2 py-1 bg-slate-800 text-slate-400 rounded text-[9px] font-bold transition-all">Revisi Ulang</button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function moveTask(id, newStatus) {
+      state.tasks = state.tasks.map(t => t.id === id ? { ...t, status: newStatus } : t);
+      addExp(40);
+      renderPjBLPlanner();
+    }
+
+
+    // ================= 6. LOGIKA PUSTAKA REPOSITORY MEDIA =================
+    function renderRepository() {
+      const grid = document.getElementById('repo-grid');
+      const filtered = state.repoFilter === 'Semua'
+        ? state.innovations
+        : state.innovations.filter(item => item.type === state.repoFilter);
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 flex flex-col justify-between space-y-4 transition-all">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="px-2.5 py-0.5 bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 text-[9px] font-bold uppercase rounded">${item.type}</span>
+              <span class="text-[10px] text-slate-500 font-bold uppercase">${item.ext}</span>
+            </div>
+            <h4 class="font-bold text-sm text-slate-100 leading-tight mb-1">${item.title}</h4>
+            <p class="text-xs text-slate-400">Oleh: ${item.author}</p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+            <div class="flex gap-4">
+              <button onclick="likeInnovation(${item.id})" class="flex items-center gap-1.5 hover:text-indigo-400 transition-all">
+                <i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i>
+                <span>${item.likes}</span>
+              </button>
+            </div>
+            <button onclick="simulateDownload()" class="px-3 py-1.5 bg-slate-850 hover:bg-slate-800 text-indigo-300 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all">
+              <i data-lucide="download" class="w-3 h-3"></i> Unduh
+            </button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function filterInovasi(type) {
+      state.repoFilter = type;
+      document.querySelectorAll('.repo-filter-btn').forEach(btn => {
+        btn.className = "repo-filter-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 border border-slate-800";
+      });
+      event.target.className = "repo-filter-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-800 text-indigo-400 border border-indigo-500/30";
+      renderRepository();
+    }
+
+    function likeInnovation(id) {
+      state.innovations = state.innovations.map(item => item.id === id ? { ...item, likes: item.likes + 1 } : item);
+      showNotification("Apresiasi inovasi berhasil dikirim!");
+      renderRepository();
+    }
+
+    function simulateDownload() {
+      showNotification("Berkas Rencana Pelaksanaan Pembelajaran siap diunduh.");
+      addExp(20);
+    }
+
+    function openUploadModal() {
+      document.getElementById('upload-modal').classList.remove('hidden');
+    }
+    function closeUploadModal() {
+      document.getElementById('upload-modal').classList.add('hidden');
+    }
+
+    function handleUploadSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('modal-upload-title').value;
+      const type = document.getElementById('modal-upload-type').value;
+
+      const newInno = {
+        id: state.innovations.length + 1,
+        title: title,
+        author: state.userProfile.name,
+        downloads: 0,
+        likes: 0,
+        type: type,
+        ext: "PDF"
+      };
+
+      state.innovations.unshift(newInno);
+      closeUploadModal();
+      addExp(100);
+      renderRepository();
+
+      document.getElementById('modal-upload-title').value = '';
+    }
+
+    // === Window Load Initializer ===
+    window.onload = function() {
+      lucide.createIcons();
+      updateProfileUI();
+      renderSyllabus();
+      updateLabVisuals();
+    }
+  </script>
+</body>
+</html>
